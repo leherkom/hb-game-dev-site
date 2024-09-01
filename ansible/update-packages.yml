@@ -3,12 +3,10 @@
   tasks:
     - name: Update all packages to latest version
       become: true
-      become_method: sudo
       ansible.builtin.apt:
         name: "*"
-        state: latest  # noqa: package-latest
+        state: latest # noqa: package-latest
         update_cache: true
     - name: Reboot machine
       become: true
-      become_method: sudo
       ansible.builtin.reboot:
