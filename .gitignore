@@ -1,0 +1,5 @@
+# IDE settings
+.vscode
+
+# Ansible inventory
+ansible/inventory.yml

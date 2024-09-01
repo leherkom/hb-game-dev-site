@@ -1,0 +1,19 @@
+---
+- name: Deploy HTML and CSS to webserver
+  hosts: webservers
+  tasks:
+    - name: Copy english site HTML to server
+      ansible.builtin.copy:
+        src: ../src/index.html
+        dest: ~/webserver/html/index.html
+        mode: "644"
+    - name: Copy german site HTML to server
+      ansible.builtin.copy:
+        src: ../src/de.html
+        dest: ~/webserver/html/de.html
+        mode: "644"
+    - name: Copy CSS stylesheet to server
+      ansible.builtin.copy:
+        src: ../src/resources/styles.min.css
+        dest: ~/webserver/html/resources/styles.min.css
+        mode: "644"
