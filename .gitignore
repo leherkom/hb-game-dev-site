@@ -4,3 +4,7 @@
 
 # Ansible inventory
 ansible/inventory.yml
+
+# minified resources
+src/resources/index.min.js
+src/resources/styles.min.css
