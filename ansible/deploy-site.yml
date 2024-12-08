@@ -1,5 +1,5 @@
 ---
-- name: Deploy HTML and CSS to webserver
+- name: Deploy HTML, JS and CSS to webserver
   hosts: webservers
   tasks:
     - name: Copy english site HTML to server

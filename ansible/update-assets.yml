@@ -1,0 +1,19 @@
+---
+- name: Updates images used on the site
+  hosts: webservers
+  tasks:
+    - name: Copy images
+      ansible.builtin.copy:
+        src: ../src/resources/img
+        dest: ~/webserver/html/resources/
+        mode: "644"
+    - name: Copy bold font
+      ansible.builtin.copy:
+        src: ../src/resources/Silkscreen-Bold.ttf
+        dest: ~/webserver/html/resources/Silkscreen-Bold.ttf
+        mode: "644"
+    - name: Copy regular font
+      ansible.builtin.copy:
+        src: ../src/resources/Silkscreen-Regular.ttf
+        dest: ~/webserver/html/resources/Silkscreen-Regular.ttf
+        mode: "644"
