@@ -17,3 +17,8 @@
         src: ../src/resources/styles.min.css
         dest: ~/webserver/html/resources/styles.min.css
         mode: "644"
+    - name: Copy JS script to server
+      ansible.builtin.copy:
+        src: ../src/resources/index.min.js
+        dest: ~/webserver/html/resources/index.min.js
+        mode: "644"
