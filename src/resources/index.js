@@ -21,22 +21,20 @@ function getCurrentLocale() {
 }
 
 /**
- * Finds the first Friday of the specified month
- *
- * @param {number} year
- * @param {number} monthIndex
- * @returns {Date}
+ * Finds the nth given workday of the provided month and year.
  */
-function findFirstFriday(year, monthIndex) {
-  const targetMonth = new Date(year, monthIndex, 1);
-  while (targetMonth.getDay() !== 5) {
-    if (isNaN(targetMonth.getDay())) {
-      // shouldn't happen; but bail out in case the Date objects becomes malformed
-      break;
+function findNthWorkday(year, month, n, workday) {
+  const result = new Date(year, month, 1);
+  let encounteredWorkdays = 0;
+  while (encounteredWorkdays < n) {
+    if (result.getDay() === workday) {
+      encounteredWorkdays++;
+      if (encounteredWorkdays === n) {
+        return result;
+      }
     }
-    targetMonth.setDate(targetMonth.getDate() + 1);
+    result.setDate(result.getDate() + 1);
   }
-  return targetMonth;
 }
 
 /**
@@ -46,16 +44,43 @@ function findFirstFriday(year, monthIndex) {
  */
 function findNextMeetingDate() {
   const now = new Date();
+  const meetingWorkday = 5; // Friday
 
-  // get this month's meeting time if it hasn't occurred yet
-  const thisMonthsMeeting = findFirstFriday(now.getFullYear(), now.getMonth());
-  if (thisMonthsMeeting.getDate() >= now.getDate()) {
-    return thisMonthsMeeting;
+  // exceptional case due to skipped meeting
+  if (
+    now.getFullYear() === 2025 &&
+    now.getMonth() === 7 &&
+    now.getDate() < 22
+  ) {
+    return new Date(2025, 7, 22);
   }
 
-  // else, find next month's meeting
+  // if this month's second Friday is still upcoming, return it
+  const secondFridayThisMonth = findNthWorkday(
+    now.getFullYear(),
+    now.getMonth(),
+    2,
+    meetingWorkday,
+  );
+  if (secondFridayThisMonth.getDate() >= now.getDate()) {
+    return secondFridayThisMonth;
+  }
+
+  // if this month's fourth Friday is still upcoming, return it
+  const fourthFridayThisMonth = findNthWorkday(
+    now.getFullYear(),
+    now.getMonth(),
+    4,
+    meetingWorkday,
+  );
+  if (fourthFridayThisMonth.getDate() >= now.getDate()) {
+    return fourthFridayThisMonth;
+  }
+
+  // if both of this month's meeting have passed, return the first
+  // meeting next month
   now.setMonth(now.getMonth() + 1);
-  return findFirstFriday(now.getFullYear(), now.getMonth());
+  return findNthWorkday(now.getFullYear(), now.getMonth(), 2, meetingWorkday);
 }
 
 /**
